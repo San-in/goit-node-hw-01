@@ -5,7 +5,7 @@ const { getContacts, updateFile, createContact } = require("./helpers/index");
 // TODO: задокументувати кожну функцію
 async function listContacts() {
   try {
-    return getContacts(contactsPath);
+    return await getContacts(contactsPath);
   } catch (error) {
     console.log(error.message);
     throw error;
@@ -29,7 +29,7 @@ async function removeContact(contactId) {
     const deleteIndex = contacts.findIndex(({ id }) => id === contactId);
     if (deleteIndex !== -1) {
       const removedContact = contacts.splice(deleteIndex, 1);
-      updateFile(contactsPath, contacts);
+      await updateFile(contactsPath, contacts);
       return removedContact;
     } else {
       console.log("We have no contact with this ID");
@@ -45,7 +45,7 @@ async function addContact(name, email, phone) {
     const contacts = await getContacts(contactsPath);
     const newContact = createContact(name, email, phone);
     contacts.push(newContact);
-    updateFile(contactsPath, contacts);
+    await updateFile(contactsPath, contacts);
     return newContact;
   } catch (error) {
     console.log(error.message);
